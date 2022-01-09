@@ -13,6 +13,7 @@ import SignUp from './components/auth/SignUp'
 import SignIn from './components/auth/SignIn'
 import SignOut from './components/auth/SignOut'
 import ChangePassword from './components/auth/ChangePassword'
+import Footer from './components/shared/Footer'
 
 const App = () => {
 
@@ -42,6 +43,7 @@ const App = () => {
 	}
 
 	return (
+		<>
 		<Fragment>
 			<Header user={user} />
 			<Routes>
@@ -86,7 +88,10 @@ const App = () => {
 					deleteAlert={deleteAlert}
 				/>
 			))}
+			<Footer />
 		</Fragment>
+		
+		</>
 	)
 }
 
