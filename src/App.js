@@ -14,6 +14,7 @@ import SignIn from './components/auth/SignIn'
 import SignOut from './components/auth/SignOut'
 import ChangePassword from './components/auth/ChangePassword'
 import Footer from './components/shared/Footer'
+import SearchBar from './components/SearchBar'
 
 const App = () => {
 
