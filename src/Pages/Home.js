@@ -4,10 +4,17 @@ const Home = (props) => {
 
 	const [selectedOption, setSelectedOption] = useState("Search-By-Podcast")
 
+	const [searchTerm, setSearchTerm] = useState("")
+
 	let handleOptionChange = changeEvent => {
 		setSelectedOption(changeEvent.target.value)
 	}
+
+	let handleSearchChange = changeEvent => {
+		setSearchTerm(changeEvent.target.value)
+	}
 	
+	console.log(searchTerm);
 	let handleFormSubmit = formSubmitEvent => {
 		formSubmitEvent.preventDefault()
 		console.log("You searched by ", selectedOption);
@@ -45,6 +52,14 @@ const Home = (props) => {
 								Search by Genre
 							</label>
 						</div>
+
+						<label>
+							<input 
+							type="text"
+							value={searchTerm}
+							onChange={handleSearchChange}
+							/>
+						</label>
 
 						<div className="form-group">
 							<button className="btn btn-primary mt-2" type="submit">
