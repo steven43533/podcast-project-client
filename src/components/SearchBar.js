@@ -28,7 +28,7 @@ function SearchBar({ placeholder, data }) {
                 </div>
             </div>
             <div className="dataResult">
-
+                
             </div>
 
         </div>

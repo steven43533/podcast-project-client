@@ -15,6 +15,7 @@ import SignOut from './components/auth/SignOut'
 import ChangePassword from './components/auth/ChangePassword'
 import Footer from './components/shared/Footer'
 import SearchBar from './components/SearchBar'
+import SearchResults from './Pages/SearchResults'
 
 const App = () => {
 
@@ -55,6 +56,7 @@ const App = () => {
 					</RequireAuth>
 				}
 				/>
+				<Route path='/search-results' element={<SearchResults />} />
 				<Route
 					path='/sign-up'
 					element={<SignUp msgAlert={msgAlert} setUser={setUser} />}
