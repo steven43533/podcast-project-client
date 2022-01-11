@@ -2,58 +2,64 @@ import React from 'react'
 import SearchBar from '../components/SearchBar'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import useDebounce from '../Hooks/useDebounce'
 
 function Home() {
 
-	const [podcastData, setPodcastData] = useState([])
+	const [results, setResults] = useState([])
 	const [searchTerm, setSearchTerm] = useState("")
+	const [isSearching, setIsSearching] = useState(false)
 
-	const handleChange = event => {
-		setSearchTerm(event.target.value)
-		getPodcasts()
-		console.log(searchTerm);
-	}
+	const debouncedSearchTerm = useDebounce(searchTerm, 400)
+	useEffect(
+		() => {
+			if (debouncedSearchTerm) {
+				setIsSearching(true)
+				searchCharacters(debouncedSearchTerm).then(results => {
+					setIsSearching(false)
+					setResults(results)
+				})
+			} else {
+				setResults([])
+			}
+		},
 
-
-	const url = `http://localhost:8000?searchTerm=${searchTerm}`
-
-	// useEffect(() => {
-	// 	getPodcasts()
-	// }, [])
-
-	const getPodcasts = () => {
-		fetch(url)
-			.then(response => response.json())
-			.then((podcastData) => {
-				setPodcastData(podcastData.results)
-				console.log(podcastData.results);
-			})
-			.catch(err => console.log(err))
-	}
+		[debouncedSearchTerm]
+	)
 
 	return (
 		<div>
 			<Link to="/search-results">Search Results Page</Link>
-			<SearchBar 
-			placeholder="Enter a search..." 
-			value={searchTerm} 
-			onChange={handleChange}
+			<SearchBar
+				placeholder="Enter a search..."
+				onChange={e => setSearchTerm(e.target.value)}
 			/>
-			{podcastData.map((value) => {
-				return (
-					<div className='container'>	
-						<div className="podcast-row">
-								<p key={value.id}>{value.title_original}</p>
-								<img src={value.thumbnail} alt="podcast-thumbnail" />
-						</div>
+			{isSearching && <div>Searching...</div>}
+			{results.map((value) => {
+				<div className='container'>
+					<div className="podcast-row">
+						<p key={value.id}>{value.title_original}</p>
+						<img src={value.thumbnail} alt="podcast-thumbnail" />
 					</div>
-				)
+				</div>
 
 
 			})}
 
 		</div>
 	)
+}
+
+
+function searchCharacters(searchTerm) {
+	return fetch(`http://localhost:8000?searchTerm=${searchTerm}`,
+		{
+			method: 'GET'
+		}
+	)
+		.then(response => response.json())
+		.then(response => console.log('search responses log:',response.results))
+		.catch(err => console.log(err))
 }
 
 export default Home
