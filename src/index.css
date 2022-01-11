@@ -24,3 +24,8 @@ code {
 .footer-img{
   height: 17px;
 }
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}

@@ -7,7 +7,7 @@ import FormLabel from '@mui/material/FormLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 
-function SearchBar({ placeholder, data }) {
+function SearchBar({ placeholder, value, onChange }) {
     return (
         <div className='search'>
             <FormControl component="fieldset">
@@ -22,7 +22,7 @@ function SearchBar({ placeholder, data }) {
                 </RadioGroup>
             </FormControl>
             <div className="searchInputs">
-                <input type="text" placeholder={placeholder} />
+                <input type="text" placeholder={placeholder} value={value} onChange={onChange}/>
                 <div className='searchIcon'>
                     <SearchIcon />
                 </div>

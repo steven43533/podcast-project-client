@@ -1,17 +1,25 @@
 import React from 'react'
 import SearchBar from '../components/SearchBar'
-import { useEffect,useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 function Home() {
 
 	const [podcastData, setPodcastData] = useState([])
+	const [searchTerm, setSearchTerm] = useState("")
 
-	const url = "http://localhost:8000/by-podcast"
-
-	useEffect(() => {
+	const handleChange = event => {
+		setSearchTerm(event.target.value)
 		getPodcasts()
-	}, [])
+		console.log(searchTerm);
+	}
+
+
+	const url = `http://localhost:8000?searchTerm=${searchTerm}`
+
+	// useEffect(() => {
+	// 	getPodcasts()
+	// }, [])
 
 	const getPodcasts = () => {
 		fetch(url)
@@ -26,20 +34,24 @@ function Home() {
 	return (
 		<div>
 			<Link to="/search-results">Search Results Page</Link>
-			<SearchBar placeholder="Enter a search..."/>
+			<SearchBar 
+			placeholder="Enter a search..." 
+			value={searchTerm} 
+			onChange={handleChange}
+			/>
 			{podcastData.map((value) => {
 				return (
-					<div>
-						<p key={value.id}>{value.title_original}</p>
-						<img src={value.thumbnail} alt="podcast-thumbnail" />
-						<p>{value.total_episodes}</p>
-						<p>{value.website}</p>
+					<div className='container'>	
+						<div className="podcast-row">
+								<p key={value.id}>{value.title_original}</p>
+								<img src={value.thumbnail} alt="podcast-thumbnail" />
+						</div>
 					</div>
 				)
-					
-				
+
+
 			})}
-			
+
 		</div>
 	)
 }
