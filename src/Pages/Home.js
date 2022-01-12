@@ -10,40 +10,42 @@ function Home() {
 	const [searchTerm, setSearchTerm] = useState("")
 	const [isSearching, setIsSearching] = useState(false)
 
-	const debouncedSearchTerm = useDebounce(searchTerm, 400)
+	const debouncedSearchTerm = useDebounce(searchTerm, 500)
 	useEffect(
 		() => {
 			if (debouncedSearchTerm) {
 				setIsSearching(true)
-				searchCharacters(debouncedSearchTerm).then(results => {
+				console.log(searchCharacters(debouncedSearchTerm))
+				searchCharacters(debouncedSearchTerm).then(res => {
+					console.log("show me the money", res)
+					setResults(res)
 					setIsSearching(false)
-					setResults(results)
 				})
 			} else {
-				setResults([])
+				setResults(["hello else condition"])
 			}
 		},
 
 		[debouncedSearchTerm]
 	)
-
 	return (
 		<div>
-			<Link to="/search-results">Search Results Page</Link>
+			<Link to="/search-results">Links to genres</Link>
 			<SearchBar
 				placeholder="Enter a search..."
 				onChange={e => setSearchTerm(e.target.value)}
 			/>
 			{isSearching && <div>Searching...</div>}
-			{results.map((value) => {
-				<div className='container'>
-					<div className="podcast-row">
-						<p key={value.id}>{value.title_original}</p>
-						<img src={value.thumbnail} alt="podcast-thumbnail" />
+
+			{results.map(result => {
+				return (
+					<div className='container'>
+						<div className="podcast-row">
+							<p key={result.id}>{result.title_original}</p>
+							<img src={result.thumbnail} />
+						</div>
 					</div>
-				</div>
-
-
+				)
 			})}
 
 		</div>
@@ -52,14 +54,18 @@ function Home() {
 
 
 function searchCharacters(searchTerm) {
-	return fetch(`http://localhost:8000?searchTerm=${searchTerm}`,
+	return fetch(
+		`http://localhost:8000?searchTerm=${searchTerm}`,
 		{
 			method: 'GET'
 		}
 	)
 		.then(response => response.json())
-		.then(response => console.log('search responses log:',response.results))
-		.catch(err => console.log(err))
+		.then(response => response.results)
+		.catch(err => {
+			console.log(err)
+			return []
+		})
 }
 
 export default Home
