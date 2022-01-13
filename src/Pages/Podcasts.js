@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
-
+import parse from 'html-react-parser'
 function Podcasts() {
 
     let fetchedPodcastId = useParams()
     const [podcastData, setPodcastData] = useState([])
     const [episodeData, setEpisodeData] = useState([])
     fetchedPodcastId = fetchedPodcastId.podcastId
-    console.log(fetchedPodcastId)
+
     useEffect(
         () => {
             getPodcast(fetchedPodcastId).then(res => {
@@ -16,7 +16,7 @@ function Podcasts() {
             })
         }, [fetchedPodcastId]
     )
-    console.log(podcastData)
+
     return (
         <div>
             <img className="podcast-img" src={podcastData.image} alt="" />
@@ -27,10 +27,13 @@ function Podcasts() {
             <p>{podcastData.website}</p>
             {episodeData.map((value, index) => {
                 const msToDate = new Date(value.pub_date_ms)
+                const descripToBeParsed = value.description
                 return(
                     <div>
+                        <img className="podcast-img" src={value.thumbnail} alt="" />
                         <h4 key={index.id}>{value.title}</h4>
                         <p>{msToDate.toDateString()}</p>
+                        <small>{parse(descripToBeParsed)}</small>
                     </div>
                 )
                 
