@@ -4,19 +4,38 @@ import { useParams } from "react-router-dom"
 function Podcasts() {
 
     let fetchedPodcastId = useParams()
-    // const [podcastId, setpodcastId] = useState(fetchedPodcastId)
+    const [podcastData, setPodcastData] = useState([])
+    const [episodeData, setEpisodeData] = useState([])
     fetchedPodcastId = fetchedPodcastId.podcastId
     console.log(fetchedPodcastId)
     useEffect(
         () => {
             getPodcast(fetchedPodcastId).then(res => {
-                console.log('show me something',res);
+                setPodcastData(res)
+                setEpisodeData(res.episodes)
             })
         }, [fetchedPodcastId]
     )
-    return(
+    console.log(podcastData)
+    return (
         <div>
-            <p>Shits displaying</p>
+            <img className="podcast-img" src={podcastData.image} alt="" />
+            <h2>{podcastData.title}</h2>
+            <h4>{podcastData.description}</h4>
+            <span>{podcastData.total_episodes}</span>
+            <span>{podcastData.language}</span>
+            <p>{podcastData.website}</p>
+            {episodeData.map((value, index) => {
+                const msToDate = new Date(value.pub_date_ms)
+                return(
+                    <div>
+                        <h4 key={index.id}>{value.title}</h4>
+                        <p>{msToDate.toDateString()}</p>
+                    </div>
+                )
+                
+            })}
+            
         </div>
     )
 }
