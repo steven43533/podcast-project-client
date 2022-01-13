@@ -1,5 +1,6 @@
 import React from 'react'
 import SearchBar from '../components/SearchBar'
+import Podcasts from './Podcasts'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import useDebounce from '../Hooks/useDebounce'
@@ -17,12 +18,12 @@ function Home() {
 				setIsSearching(true)
 				console.log(searchCharacters(debouncedSearchTerm))
 				searchCharacters(debouncedSearchTerm).then(res => {
-					console.log("show me the money", res)
+					console.log(res)
 					setResults(res)
 					setIsSearching(false)
 				})
 			} else {
-				setResults(["hello else condition"])
+				setResults([])
 			}
 		},
 
@@ -42,7 +43,9 @@ function Home() {
 					<div className='container'>
 						<div className="podcast-row">
 							<p key={result.id}>{result.title_original}</p>
-							<img src={result.thumbnail} />
+							<Link to={`/podcasts/${result.id}`}>
+								<img className='podcast-img' src={result.thumbnail} alt="" />
+							</Link>
 						</div>
 					</div>
 				)

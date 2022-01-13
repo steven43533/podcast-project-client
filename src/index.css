@@ -29,3 +29,8 @@ code {
   display: flex;
   justify-content: space-between;
 }
+
+.podcast-img {
+  height: 100px;
+  width: 100px;
+}

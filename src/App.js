@@ -14,8 +14,9 @@ import SignIn from './components/auth/SignIn'
 import SignOut from './components/auth/SignOut'
 import ChangePassword from './components/auth/ChangePassword'
 import Footer from './components/shared/Footer'
-import SearchBar from './components/SearchBar'
+import Podcasts from './Pages/Podcasts'
 import SearchResults from './Pages/SearchResults'
+
 
 const App = () => {
 
@@ -50,13 +51,14 @@ const App = () => {
 			<Header user={user} />
 			<Routes>
 				<Route path='/' element={<Home msgAlert={msgAlert} user={user} />} />
+				<Route path='/search-results' element={<SearchResults />}></Route>
+				<Route path='/podcasts/:podcastId' element={<Podcasts />}></Route>
 				<Route path='/profile' element={
 					<RequireAuth user={user}>
 						<Profile />
 					</RequireAuth>
 				}
 				/>
-				<Route path='/search-results' element={<SearchResults />} />
 				<Route
 					path='/sign-up'
 					element={<SignUp msgAlert={msgAlert} setUser={setUser} />}
