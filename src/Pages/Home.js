@@ -1,6 +1,5 @@
 import React from 'react'
 import SearchBar from '../components/SearchBar'
-import Podcasts from './Podcasts'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import useDebounce from '../Hooks/useDebounce'

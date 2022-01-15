@@ -22,9 +22,11 @@ function Podcasts() {
             <img className="podcast-img" src={podcastData.image} alt="" />
             <h2>{podcastData.title}</h2>
             <h4>{podcastData.description}</h4>
-            <span>{podcastData.total_episodes}</span>
-            <span>{podcastData.language}</span>
+            <span>Episode Count: {podcastData.total_episodes}</span>
+            <br />
+            <span>Podcast is in: {podcastData.language}</span>
             <p>{podcastData.website}</p>
+            <h1>Recent Episodes:</h1>
             {episodeData.map((value, index) => {
                 const msToDate = new Date(value.pub_date_ms)
                 const descripToBeParsed = value.description
